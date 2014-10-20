@@ -300,5 +300,56 @@ class IntimeApi {
 		$result = $this->intime_request("DeliveryDay", $data);
 		return $result['DayOfDelivery'];
 	}
+	
+	/**
+	 * Получение стоимости товара
+	 * 
+	 * @return float Стоимость доставки
+	 */
+	public function calculate_ttn() {
+		// Проверка необходимых полей и попытка получить значения пустых полей
+		$this->_prepare_data(array('sender_warehouse_code', 'receiver_warehouse_code', 'quantity', 'weight', 'volume'));
+		// Подготовка параметров для запроса
+		$data = array();
+		// Попытка получить стоимость товара
+		$data['CalculateTTN']['CalculateRequest']['Auth'] = array(
+			'ID' => $this->id,
+			'KEY' => $this->key,
+		);
+		$data['CalculateTTN']['CalculateRequest']['CalculateTTN'] = array(
+			'Sender' => array(
+				'WarehouseSenderCode' => $this->sender_warehouse_code,
+				'SettlementCode' => $this->sender_settlement_code,
+				'PhoneSender' => $this->sender_phone,
+			),
+			'Receiver' => array(
+				'ReceiverClient' => $this->receiver_client,
+				'WarehouseReceiverCode' => $this->receiver_warehouse_code,
+				'PhoneReceiver' => $this->receiver_phone,
+				'SettlementCode' => $this->receiver_settlement_code,
+			),
+			'PaymentType' => $this->payment_type,
+			'DispatchDate' => $this->dispatch_date,
+			'POD' => array(
+				'PodAmount' => $this->pod_amount,
+			),
+			'InsuranceCost' => $this->insurance_cost,
+			'TransportationType' => $this->transportation_type,
+			'PaymentMethod' => $this->payment_method,
+			'PackagesTypeCode' => $this->packages_type_code,
+			'PackageQuantity' => $this->package_quantity,
+			'Cargo' => array(
+				'CargoType' => $this->cargo_type,
+				'CargoDescription' => $this->cargo_description,
+			),
+			'CargoParams' => array(
+				'Quantity' => $this->quantity,
+				'Weight' => $this->weight,
+				'Volume' => $this->volume,
+			),
+		);
+		$result = $this->intime_request("CalculateTTN", $data);
+		return $result['Amount'];
+	}
 }
 ?>
