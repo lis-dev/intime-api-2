@@ -102,5 +102,20 @@ class IntimeApi {
 	private static $_list_of_settlements = array(),
 	// Список представительств
 	$_departments = array();
+	
+	/**
+	 *  Конструктор по умолчанию
+	 * 
+	 * @param string $id Идентефикатор пользователя
+	 * @param string $key Ключ пользователя
+	 * @return Intime
+	 */
+	function __construct($id, $key) {
+		// ini_set("soap.wsdl_cache_enabled", "0");
+		$this->id = $id;
+		$this->key = $key;
+		$this->dispatch_date = date("Y-m-d+03:00");
+		return $this;
+	}
 }
 ?>
