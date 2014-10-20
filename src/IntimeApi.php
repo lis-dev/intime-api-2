@@ -255,5 +255,22 @@ class IntimeApi {
 		$result = $this->intime_request("AllCatalog", $data);
 		return $result;
 	}
+	
+	/**
+	 * Получение каталога (справочника)
+	 * 
+	 * @param string $catalog Название каталога
+	 * @return array Массив каталогов
+	 */
+	function get_catalog($catalog) {
+		$data['CatalogList']['CatalogListRequest']['AuthData'] = array(
+			'ID' => $this->id,
+			'KEY' => $this->key,
+		);
+		$data['CatalogList']['CatalogListRequest']['CatalogNameEng'] = $catalog;
+		$result = $this->intime_request("CatalogList", $data);
+		return $result;
+	}
+	
 }
 ?>
