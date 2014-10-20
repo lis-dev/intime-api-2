@@ -4,6 +4,7 @@
  * 
  * @author lis-dev
  * @link http://www.intime.ua/API2.0/API_2_0.pdf
+ * @link https://github.com/lis-dev/intime
  * @version 0.01
  */
 class IntimeApi {
@@ -232,9 +233,13 @@ class IntimeApi {
 	public function get_department_code($city, $address) {
 		// Есть необходимость записать результат, т.к. размер передаваемого файла > 500K
 		( ! self::$_departments) AND self::$_departments = $this->get_catalog('Departments');
+		// Т.к. в адресах складов в некоторых случаях встречаются адреса без знаков препинания, то учитывается и этот вариант
+		$address_short = str_ireplace(array(' ', '.', ',', '-'), '', $address);
 		// Поиск города и адреса
 		foreach (self::$_departments['ListCatalog']['Catalog'] as $department) {
-			if (mb_stripos($department['Name'], $city) !== FALSE AND mb_stripos($department['AppendField'][0]['AppendFieldValue'], $address) !== FALSE) {
+			$department_address = $department['AppendField'][0]['AppendFieldValue'];
+			$department_address_short = str_ireplace(array(' ', '.', ',', '-'), '', $department_address);
+			if (mb_stripos($department['Name'], $city) !== FALSE AND (mb_stripos($department_address, $address) !== FALSE OR mb_stripos($department_address_short, $address_short) !== FALSE)) {
 				$warehouse_code = $department['Code'];
 				break;
 			}
