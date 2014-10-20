@@ -241,5 +241,19 @@ class IntimeApi {
 		}
 		return $warehouse_code;
 	}
+
+	/**
+	 * Получение всеx названий справочников
+	 * 
+	 * @return array
+	 */
+	function get_all_catalogs() {
+		$data['AllCatalog']['AllСatalogRequest']['Auth'] = array(
+			'ID' => $this->id,
+			'KEY' => $this->key,
+		);
+		$result = $this->intime_request("AllCatalog", $data);
+		return $result;
+	}
 }
 ?>
