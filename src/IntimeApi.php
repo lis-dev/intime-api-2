@@ -477,5 +477,26 @@ class IntimeApi {
 		$result = $this->intime_request("PrintLabel", $data);
 		return $result['URL'];
 	}
+	
+	/**
+	 * Получение ссылки для печати заявки на ТТН
+	 * 
+	 * @return string URL
+	 */
+	public function print_ttn() {
+		// Подготовка параметров для запроса
+		$data['PrintTTN']['PrintTTNRequest']['Auth'] = array(
+			'ID' => $this->id,
+			'KEY' => $this->key,
+		);
+		$data['PrintTTN']['PrintTTNRequest']['Number'] = $this->ttn_number;
+		// Функция должна возвращать URL, но из-за ошибки на стороне сервиса возвращается
+		try {
+			$result = $this->intime_request("PrintTTN", $data);
+		} catch (Exception $e) {
+			$result['URL'] = $e->getMessage();
+		}
+		return $result['URL'];
+	}
 }
 ?>
