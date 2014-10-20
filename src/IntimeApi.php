@@ -550,5 +550,22 @@ class IntimeApi {
 		return $result;
 	}
 
+	/**
+	 * Удаление ТТН
+	 * 
+	 * @return array
+	 */
+	public function delete_ttn() {
+		if ( ! $this->ttn_number) 
+			throw new Exception("Не указан номер ТТН");
+		// Подготовка параметров для запроса
+		$data['DeleteTTN']['DeleteRequest']['AuthData'] = array(
+			'ID' => $this->id,
+			'KEY' => $this->key,
+		);
+		$data['DeleteTTN']['DeleteRequest']['NumberTTN'] = $this->ttn_number;
+		$result = $this->intime_request("DeleteTTN", $data);
+		return $result;
+	}
 }
 ?>
