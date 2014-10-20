@@ -272,5 +272,33 @@ class IntimeApi {
 		return $result;
 	}
 	
+	/**
+	 * Метод предназначен для расчета сроков доставки
+	 * 
+	 * @return string
+	 */
+	function delivery_day() {
+		// Проверка необходимых полей и попытка получить значения пустых полей
+		$this->_prepare_data(array('sender_warehouse_code', 'receiver_warehouse_code'));
+		$data = array(
+			'DeliveryDay' =>  array(
+				'DayOfDeliveryRequest' => array(
+					'AuthData' => array(
+						'ID' => $this->id,
+						'KEY' => $this->key,
+					),
+					'WarehouseSender' => $this->sender_warehouse_code,
+					'WarehouseReceiver' => $this->receiver_warehouse_code,
+					'SettlementCodeSender' => $this->sender_settlement_code,
+					'SettlementCodeReceiver' => $this->receiver_settlement_code,
+					// Дата отправки
+					'Data' => $this->dispatch_date,
+					'TransportationType' => $this->transportation_type,
+				),
+			)
+		);
+		$result = $this->intime_request("DeliveryDay", $data);
+		return $result['DayOfDelivery'];
+	}
 }
 ?>
