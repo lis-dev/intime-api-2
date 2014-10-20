@@ -351,5 +351,22 @@ class IntimeApi {
 		$result = $this->intime_request("CalculateTTN", $data);
 		return $result['Amount'];
 	}
+
+	/**
+	 * Генерирование новых номеров ТТН
+	 * 
+	 * @param int $count Кол-во сгенерированных номеров для генерирования накладных, максимум 10 за 1 запрос
+	 * @return array Массив сгенерированных номеров
+	 */
+	function reserve_numbers($count = 1) {
+		$data['ReserveNumbers']['ReserveNumbersRequest']['Auth'] = array(
+			'ID' => $this->id,
+			'KEY' => $this->key,
+		);
+		$data['ReserveNumbers']['ReserveNumbersRequest']['Quantity'] = (int) $count;
+		$result = $this->intime_request("ReserveNumbers", $data);
+		// $result['Number'] может быть как массив, так и string
+		return (array) $result['Number'];
+	}
 }
 ?>
