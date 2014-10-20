@@ -221,5 +221,25 @@ class IntimeApi {
 		}
 		return $settlement_code;
 	}
+	
+	/**
+	 * Определение кода склада (отделения) по названию города и адресу отделения
+	 * 
+	 * @param string $city
+	 * @param string $address
+	 * @return string Code
+	 */
+	public function get_department_code($city, $address) {
+		// Есть необходимость записать результат, т.к. размер передаваемого файла > 500K
+		( ! self::$_departments) AND self::$_departments = $this->get_catalog('Departments');
+		// Поиск города и адреса
+		foreach (self::$_departments['ListCatalog']['Catalog'] as $department) {
+			if (mb_stripos($department['Name'], $city) !== FALSE AND mb_stripos($department['AppendField'][0]['AppendFieldValue'], $address) !== FALSE) {
+				$warehouse_code = $department['Code'];
+				break;
+			}
+		}
+		return $warehouse_code;
+	}
 }
 ?>
