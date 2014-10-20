@@ -461,5 +461,21 @@ class IntimeApi {
 		$result = $this->intime_request("AddTTN", $data);
 		return $result;
 	}
+
+	/**
+	 * Получение ссылки для печати этикеток
+	 * 
+	 * @return string URL файла этикеток для печати
+	 */
+	public function print_label() {
+		// Подготовка параметров для запроса
+		$data['PrintLabel']['GenerateLabelsRequest']['Auth'] = array(
+			'ID' => $this->id,
+			'KEY' => $this->key,
+		);
+		$data['PrintLabel']['GenerateLabelsRequest']['Number'] = $this->ttn_number;
+		$result = $this->intime_request("PrintLabel", $data);
+		return $result['URL'];
+	}
 }
 ?>
