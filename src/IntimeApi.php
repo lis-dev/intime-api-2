@@ -197,5 +197,29 @@ class IntimeApi {
 		
 		return TRUE;
 	}
+
+	/**
+	 * Получение кода населенного пункта по его названию и области (району) - для пгт, сел, посёлков и т.п.
+	 * 
+	 * @param string $settlement Название населенного пункта
+	 * @param string $region Область
+	 * @return string Код города
+	 */
+	public function get_settlement_code($settlement, $region) {
+		// Есть необходимость записать результат, т.к. размер передаваемого файла > 3M
+		if ( ! self::$_list_of_settlements) {
+			self::$_list_of_settlements = $this->get_catalog('List of settlements');
+		}
+		// Поиск города и адреса
+		foreach (self::$_list_of_settlements['ListCatalog']['Catalog'] as $settlement_current) {
+			if (mb_stripos($settlement_current['Name'], $settlement) !== FALSE 
+			AND (mb_stripos($settlement_current['AppendField'][0]['AppendFieldValue'], $region) !== FALSE 
+			OR mb_stripos($settlement_current['AppendField'][1]['AppendFieldValue'], $region) !== FALSE)) {
+				$settlement_code = $settlement_current['Code'];
+				break;
+			}
+		}
+		return $settlement_code;
+	}
 }
 ?>
