@@ -368,5 +368,98 @@ class IntimeApi {
 		// $result['Number'] может быть как массив, так и string
 		return (array) $result['Number'];
 	}
+	
+	/**
+	 * Создание заявки ТТН
+	 * 
+	 * @return string Состояние создания заявки
+	 */
+	public function add_ttn() {
+		// Проверка необходимых полей и попытка получить значения пустых полей
+		$this->_prepare_data(array('sender_warehouse_code', 'receiver_warehouse_code', 'quantity', 'weight', 'volume'));
+		// Если нет номера накладной, то делается запрос на его генерацию 
+		if ( ! $this->ttn_number) {
+			$reserved_numbers = $this->reserve_numbers();
+			if ( ! $reserved_numbers)
+				throw new Exception('Не удалось сгенерировать номер накладной');
+			$this->ttn_number = $reserved_numbers[0];
+		}
+		// Подготовка параметров для запроса
+		$data = array();
+		// Попытка получить номер ТТН
+		$data['AddTTN']['AddRequest']['Auth'] = array(
+			'ID' => $this->id,
+			'KEY' => $this->key,
+		);
+		$data['AddTTN']['AddRequest']['TTN'] = array(
+			'Sender' => array(
+				'WarehouseSenderCode' => $this->sender_warehouse_code,
+				'SettlementCode' => $this->sender_settlement_code,
+				'SenderAddress' => '',
+				'PhoneSender' => $this->sender_phone,
+			),
+			'Receiver' => array(
+				'ReceiverClient' => $this->receiver_client,
+				'WarehouseReceiverCode' => $this->receiver_warehouse_code,
+				'SettlementCode' => $this->receiver_settlement_code,
+				'ReceiverAddress' => '',
+				'PhoneReceiver' => $this->receiver_phone,
+			),
+			'Number' => $this->ttn_number,
+			'PaymentType' => $this->payment_type,
+			'DispatchDate' => $this->dispatch_date,
+			'POD' => array(
+				'PodPays' => $this->pod_payment_type,
+				'PodAmount' => $this->pod_amount,
+				/*
+				'ReceiverPODThird' => array(
+					'ReceiverPODThird' => '',
+					'WarehouseReceiverPODThird' => '',
+					'PhoneReceiverPODThird' => '',
+				),
+				*/
+			),
+			'ContractorPaysThird' => array(
+				'ContractorPaysThird' => '',
+				'WarehousePaysThird' => '',
+				'PhonePaysThird' => '',
+			),
+			'InsuranceCost' => $this->insurance_cost,
+			'TransportationType' => $this->transportation_type,
+			'PaymentMethod' => $this->payment_method,
+			'Packages' => array(
+				'PackagesTypeCode' => $this->packages_type_code,
+				'PackageQuantity' => 0,
+			),
+			'AdditionalServices' => array(
+				'AdditionalServicesCode' =>  '',
+				'AdditionalServicesParametr' => '',
+			),
+			'Cargo' => array(
+				'CargoType' =>  $this->cargo_type,
+				'CargoDescription' => $this->cargo_description,
+			),
+			'CargoParams' => array(
+				'Quantity' => $this->quantity,
+				'Weight' => $this->weight,
+				'Volume' => $this->volume,
+			),
+			'CargoItems' => array(
+				'CargoItemsCode' => '',
+				'CargoItemsQuantity' => 0,
+			),
+			/*
+			'ReservedField' => array(
+				'ReservedFieldName' => '',
+				'ReservedFieldVolume' => '',
+			),
+			*/
+			'PAS' => '',
+			'ReceiverCompany' => '',
+			'SenderCompany' => $this->sender_company,
+		);
+		$result = $this->intime_request("AddTTN", $data);
+		return $result;
+	}
 }
 ?>
