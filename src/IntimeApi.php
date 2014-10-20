@@ -498,5 +498,22 @@ class IntimeApi {
 		}
 		return $result['URL'];
 	}
+	
+	/**
+	 * Метод предназначен для печати заявки на ТТН в XML-формате (для формирования печатного документа).
+	 * 
+	 * @return string XML
+	 */
+	public function print_ttn_ext() {
+		// Подготовка параметров для запроса
+		$data['PrintTTNExt']['PrintTTNExtRequest']['Auth'] = array(
+			'ID' => $this->id,
+			'KEY' => $this->key,
+		);
+		$data['PrintTTNExt']['PrintTTNExtRequest']['Number'] = $this->ttn_number;
+		$result = $this->intime_request("PrintTTNExt", $data);
+		return $result;
+	}
+	
 }
 ?>
