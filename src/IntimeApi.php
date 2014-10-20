@@ -154,5 +154,48 @@ class IntimeApi {
 		$response = $this->_to_array($response);
 		return $response;
 	}
+	
+	/**
+	 * Проверка и подготовка данных перед запросом
+	 * 
+	 * @param array $required_fileds Массив обязательных полей
+	 * @return bool
+	 */
+	private function _prepare_data($required_fileds) {
+		// Попытка получить код склада отправителя 
+		if (in_array('sender_warehouse_code', $required_fileds) AND ! $this->sender_warehouse_code) {
+			$this->sender_warehouse_code = $this->get_department_code( (string) $this->sender_city, (string) $this->sender_address);
+			// Если нет склада отправителя, то попытка получить код населенного пункта
+			if ( ! $this->sender_warehouse_code) {
+				$this->sender_settlement_code = $this->get_settlement_code( (string) $this->sender_city, (string) $this->sender_region);
+				if ( ! $this->sender_settlement_code) {
+					throw new Exception("Не удалось определить ни код склада, ни код города отправителя");
+				}
+			}
+		}
+		// Попытка получить код склада получателя 
+		if (in_array('receiver_warehouse_code', $required_fileds) AND  ! $this->receiver_warehouse_code) {
+			$this->receiver_warehouse_code = $this->get_department_code( (string) $this->receiver_city, (string) $this->receiver_address);
+			if ( ! $this->receiver_warehouse_code) {
+				$this->receiver_settlement_code = $this->get_settlement_code( (string) $this->receiver_city, (string) $this->receiver_region);
+				if ( ! $this->receiver_settlement_code) {
+					throw new Exception("Не удалось определить ни код склада, ни код города получателя");
+				}
+			}
+		}
+		if (in_array('quantity', $required_fileds) AND  ! $this->quantity) {
+			throw new Exception("Не указано кол-во мест для груза");
+		}
+		
+		if (in_array('weight', $required_fileds) AND  ! $this->weight) {
+			throw new Exception("Не указан вес груза");
+		}
+		
+		if (in_array('volume', $required_fileds) AND  ! $this->volume) {
+			throw new Exception("Не указан объём груза");
+		}
+		
+		return TRUE;
+	}
 }
 ?>
