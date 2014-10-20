@@ -117,5 +117,23 @@ class IntimeApi {
 		$this->dispatch_date = date("Y-m-d+03:00");
 		return $this;
 	}
+	
+	/**
+	 * Рекурсивное преобразование объекта в массив
+	 * 
+	 * @param mixed $var Массив, объект или строка
+	 * @param string $in_charset 
+	 * @return mixed
+	 */
+	private function _to_array($var) {
+		is_object($var) AND $var = (array) $var;
+		if (is_array($var)) {
+			foreach ($var as $key => $value) {
+				is_object($value) AND $value = (array) $value;
+				$var[$key] = $this->_to_array($value);
+			}
+		}
+		return $var;
+	}
 }
 ?>
