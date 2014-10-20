@@ -515,5 +515,40 @@ class IntimeApi {
 		return $result;
 	}
 	
+	/**
+	 * Получение информации о конкретной ТТН
+	 * 
+	 * @return array
+	 */
+	public function info_ttn() {
+		// Подготовка параметров для запроса
+		$data['InfoTTN']['InfoTTNRequest']['Auth'] = array(
+			'ID' => $this->id,
+			'KEY' => $this->key,
+		);
+		$data['InfoTTN']['InfoTTNRequest']['Number'] = $this->ttn_number;
+		$data['InfoTTN']['InfoTTNRequest']['InformationField'][] = array('InformationName' => 'Ves');
+		$data['InfoTTN']['InfoTTNRequest']['InformationField'][] = array('InformationName' => 'VidPerevozki');
+		$data['InfoTTN']['InfoTTNRequest']['InformationField'][] = array('InformationName' => 'PlatelchikObratnoyPS');
+		$data['InfoTTN']['InfoTTNRequest']['InformationField'][] = array('InformationName' => 'GorodOtpravitel');
+		$data['InfoTTN']['InfoTTNRequest']['InformationField'][] = array('InformationName' => 'GorodPoluchatel');
+		$data['InfoTTN']['InfoTTNRequest']['InformationField'][] = array('InformationName' => 'Data');
+		$data['InfoTTN']['InfoTTNRequest']['InformationField'][] = array('InformationName' => 'Obem');
+		$data['InfoTTN']['InfoTTNRequest']['InformationField'][] = array('InformationName' => 'OpisanieGruza');
+		$data['InfoTTN']['InfoTTNRequest']['InformationField'][] = array('InformationName' => 'Oplachivaet');
+		$data['InfoTTN']['InfoTTNRequest']['InformationField'][] = array('InformationName' => 'Otpravitel');
+		$data['InfoTTN']['InfoTTNRequest']['InformationField'][] = array('InformationName' => 'PlatelchikTreteeLico');
+		$data['InfoTTN']['InfoTTNRequest']['InformationField'][] = array('InformationName' => 'Poluchatel');
+		$data['InfoTTN']['InfoTTNRequest']['InformationField'][] = array('InformationName' => 'Summa');
+		$data['InfoTTN']['InfoTTNRequest']['InformationField'][] = array('InformationName' => 'Viezd');
+		$data['InfoTTN']['InfoTTNRequest']['InformationField'][] = array('InformationName' => 'GorodPoluchatelPSTretelico');
+		$data['InfoTTN']['InfoTTNRequest']['InformationField'][] = array('InformationName' => 'Dostavka');
+		$data['InfoTTN']['InfoTTNRequest']['InformationField'][] = array('InformationName' => 'KolvoMest');
+		$data['InfoTTN']['InfoTTNRequest']['InformationField'][] = array('InformationName' => 'OpisanieGruza');
+		$data['InfoTTN']['InfoTTNRequest']['InformationField'][] = array('InformationName' => 'PostService');
+		$result = $this->intime_request("InfoTTN", $data);
+		return $result;
+	}
+
 }
 ?>
