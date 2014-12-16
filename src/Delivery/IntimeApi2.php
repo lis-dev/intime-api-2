@@ -1,67 +1,67 @@
 <?php
+namespace LisDev\Delivery;
 /**
- * Класс для работы с API службы доставки Интайм (Украина)
+ * Класс для работы с API 2.0 службы доставки Интайм (Украина)
  * 
  * @author lis-dev
  * @link http://www.intime.ua/API2.0/API_2_0.pdf
- * @link https://github.com/lis-dev/intime
- * @version 0.01
+ * @link https://github.com/lis-dev/intime2
  */
-class IntimeApi {
+class IntimeApi2 {
 	// Идентефикатор пользователя
 	public $id,
 	// Ключ пользователя
 	$key,
 	// Область отправителя
-	$sender_region = '',
+	$senderRegion = '',
 	// Город отправителя
-	$sender_city = '',
+	$senderCity = '',
 	// Код населённого пункта отправителя, если в нем нет представительства
-	$sender_settlement_code = '',
+	$senderSettlementCode = '',
 	// Адрес склада отправителя
-	$sender_address = '',
+	$senderAddress = '',
 	// Телефон отправителя
-	$sender_phone = '',
+	$senderPhone = '',
 	// Код склада отправителя
-	$sender_warehouse_code = '',
+	$senderWarehouseCode = '',
 	// Название компании отправителя
-	$sender_company = '',
+	$senderCompany = '',
 	// Область получателя
-	$receiver_region = '',
+	$receiverRegion = '',
 	// Город получателя
-	$receiver_city = '',
+	$receiverCity = '',
 	// Код населённого пункта получателя, если в нем нет представительства
-	$receiver_settlement_code = '',
+	$receiverSettlementCode = '',
 	// Адрес склада получателя
-	$receiver_address = '',
+	$receiverAddress = '',
 	// Телефон получателя
-	$receiver_phone = '',
+	$receiverPhone = '',
 	// Получатель (ФИО)
-	$receiver_client = '',
+	$receiverClient = '',
 	// Код склада получателя
-	$receiver_warehouse_code = '',
+	$receiverWarehouseCode = '',
 	
 	// Тип оплаты отправителя ('OTP' - Отправитель, 'PNP' - Оплата 50 50, 'PRV' - Произвольно, 'OTL' - Оплата третьим лицом, 'POL' - Получатель)
-	$payment_type = 'POL',
+	$paymentType = 'POL',
 	
 	// Тип оплаты пост-сервиса ('OTP' - Отправитель, 'POL' - Получатель)
-	$pod_payment_type = '',
+	$podPaymentType = '',
 	
 	// Сумма пост-сервиса
-	$pod_amount = 0,
+	$podAmount = 0,
 	
 	// Дата отправки. Формат "2014-09-29+03:00"
-	$dispatch_date = '',
+	$dispatchDate = '',
 	
 	// Ценность (стоимость заказа)
-	$insurance_cost = 200,
+	$insuranceCost = 200,
 	
 	// Код вида перевозки (01 - Дверь - Дверь, 02 - Дверь - Область, 03 - Дверь - Склад, 04 - Область - Дверь,
 	// 05 - Область - Область, 06 - Область - Склад, 07 - Склад - Дверь, 08 - Склад - Область, 09 - Склад - Склад)
-	$transportation_type = '09',
+	$transportationType = '09',
 	
 	// Код метода оплаты (t|cash)
-	$payment_method = 'cash',
+	$paymentMethod = 'cash',
 	
 	// Код упаковки отправителя
 	// 00001 - 1. СБОРНАЯ; 00002 - 2. БЕЗ УПАКОВКИ; 00003 - 3. БЕЗ ДОУПАКОВКИ; 00004 - 4. НЕ СООТВЕТСТВУЕТ УПАКОВКЕ; 00005 - 5. ОТКАЗ КЛИЕНТА ОТ УПАКОВКИ; 
@@ -81,10 +81,10 @@ class IntimeApi {
 	// 00071 - Ящик для автостекла 0,51 - 1,00 м3 (Оборот. тара); 00072 - Ящик для автостекла 1,01 - 1,50 м3 (Оборот. тара); 00073 - Ящик для автостекла 1,51 - 2,00 м3 (Оборот. тара); 00074 - Ящик для автостекла до 0,5 м3 (Оборотная тара); 00075 - Ящик для велотехники (Оборотная тара);
 	// 00076 - Ящик для мебели объем  до 1,00 м3 (Оборот. тара); 00077 - Ящик для мебели объем 1,01 - 1,5м3 (Оборот. тара); 00078 - Ящик для мебели объем 1,51-2,0м3 (Оборот. тара); 00079 - Ящик для мототехники (Оборотная тара); 00080 - Ящик для санфанфаянсовых и керамических изделий;
 	// 00081 - Ящик многоцелевого назначения (Оборотная тара); 00082 - Ящик посылочка Запорожье; 00083 - Ящик почтовый 1200x800x800 (Оборотная тара);
-	$packages_type_code = '00005',
+	$packagesTypeCode = '00005',
 	
 	// Количество упаковок
-	$package_quantity = 0,
+	$packageQuantity = 0,
 
 	// Кол-во мест
 	$quantity = 0,
@@ -93,14 +93,14 @@ class IntimeApi {
 	// Объем, м3
 	$volume = 0,
 	// Тип груза 00131 - вещи, 00101 - быттехника, 00748 - спутниковое оборудование, 00788 - ТВ оборудование, 00811 - техника
-	$cargo_type = '00131',
+	$cargoType = '00131',
 	// Описание груза
-	$cargo_description = '',
+	$cargoDescription = '',
 	// Номер ТТН накладной
-	$ttn_number = '';
+	$ttnNumber = '';
 	
 	// Список населенных пунктов, в которых нет представительства
-	private static $_list_of_settlements = array(),
+	private static $_listOfSettlements = array(),
 	// Список представительств
 	$_departments = array();
 	
@@ -115,7 +115,7 @@ class IntimeApi {
 		// ini_set("soap.wsdl_cache_enabled", "0");
 		$this->id = $id;
 		$this->key = $key;
-		$this->dispatch_date = date("Y-m-d+03:00");
+		$this->dispatchDate = date("Y-m-d+03:00");
 		return $this;
 	}
 	
@@ -123,15 +123,14 @@ class IntimeApi {
 	 * Рекурсивное преобразование объекта в массив
 	 * 
 	 * @param mixed $var Массив, объект или строка
-	 * @param string $in_charset 
 	 * @return mixed
 	 */
-	private function _to_array($var) {
+	private function _toArray($var) {
 		is_object($var) AND $var = (array) $var;
 		if (is_array($var)) {
 			foreach ($var as $key => $value) {
 				is_object($value) AND $value = (array) $value;
-				$var[$key] = $this->_to_array($value);
+				$var[$key] = $this->_toArray($value);
 			}
 		}
 		return $var;
@@ -144,7 +143,7 @@ class IntimeApi {
 	 * @param array $params Массив необхоодимых параметров
 	 * @return object Объект результата SOAP запроса 
 	 */
-	public function intime_request($method, $params) {
+	public function request($method, $params) {
 		$client = new \SoapClient("https://ws.intime.ua/API/ws/API20/?wsdl");
 		// $response = $client->$method($params)->return;
 		$response = $client->__soapCall($method, $params)->return;
@@ -152,47 +151,47 @@ class IntimeApi {
 		// Это не магия, здесь ok (eng) и ок (рус)
 		if ( ! in_array($response->InterfaceState, array('OK', 'ОК', iconv('utf-8', 'cp1251', 'ОК'))))
 			throw new Exception($response->InterfaceState);
-		$response = $this->_to_array($response);
+		$response = $this->_toArray($response);
 		return $response;
 	}
 	
 	/**
 	 * Проверка и подготовка данных перед запросом
 	 * 
-	 * @param array $required_fileds Массив обязательных полей
+	 * @param array $requiredFileds Массив обязательных полей
 	 * @return bool
 	 */
-	private function _prepare_data($required_fileds) {
+	private function _prepareData($requiredFileds) {
 		// Попытка получить код склада отправителя 
-		if (in_array('sender_warehouse_code', $required_fileds) AND ! $this->sender_warehouse_code) {
-			$this->sender_warehouse_code = $this->get_department_code( (string) $this->sender_city, (string) $this->sender_address);
+		if (in_array('senderWarehouseCode', $requiredFileds) AND ! $this->senderWarehouseCode) {
+			$this->senderWarehouseCode = $this->getDepartmentCode( (string) $this->senderCity, (string) $this->senderAddress);
 			// Если нет склада отправителя, то попытка получить код населенного пункта
-			if ( ! $this->sender_warehouse_code) {
-				$this->sender_settlement_code = $this->get_settlement_code( (string) $this->sender_city, (string) $this->sender_region);
-				if ( ! $this->sender_settlement_code) {
+			if ( ! $this->senderWarehouseCode) {
+				$this->senderSettlementCode = $this->getSettlementCode( (string) $this->senderCity, (string) $this->senderRegion);
+				if ( ! $this->senderSettlementCode) {
 					throw new Exception("Не удалось определить ни код склада, ни код города отправителя");
 				}
 			}
 		}
 		// Попытка получить код склада получателя 
-		if (in_array('receiver_warehouse_code', $required_fileds) AND  ! $this->receiver_warehouse_code) {
-			$this->receiver_warehouse_code = $this->get_department_code( (string) $this->receiver_city, (string) $this->receiver_address);
-			if ( ! $this->receiver_warehouse_code) {
-				$this->receiver_settlement_code = $this->get_settlement_code( (string) $this->receiver_city, (string) $this->receiver_region);
-				if ( ! $this->receiver_settlement_code) {
+		if (in_array('receiverWarehouseCode', $requiredFileds) AND  ! $this->receiverWarehouseCode) {
+			$this->receiverWarehouseCode = $this->getDepartmentCode( (string) $this->receiverCity, (string) $this->receiverAddress);
+			if ( ! $this->receiverWarehouseCode) {
+				$this->receiverSettlementCode = $this->getSettlementCode( (string) $this->receiverCity, (string) $this->receiverRegion);
+				if ( ! $this->receiverSettlementCode) {
 					throw new Exception("Не удалось определить ни код склада, ни код города получателя");
 				}
 			}
 		}
-		if (in_array('quantity', $required_fileds) AND  ! $this->quantity) {
+		if (in_array('quantity', $requiredFileds) AND  ! $this->quantity) {
 			throw new Exception("Не указано кол-во мест для груза");
 		}
 		
-		if (in_array('weight', $required_fileds) AND  ! $this->weight) {
+		if (in_array('weight', $requiredFileds) AND  ! $this->weight) {
 			throw new Exception("Не указан вес груза");
 		}
 		
-		if (in_array('volume', $required_fileds) AND  ! $this->volume) {
+		if (in_array('volume', $requiredFileds) AND  ! $this->volume) {
 			throw new Exception("Не указан объём груза");
 		}
 		
@@ -206,23 +205,23 @@ class IntimeApi {
 	 * @param string $region Область
 	 * @return string Код города
 	 */
-	public function get_settlement_code($settlement, $region) {
+	public function getSettlementCode($settlement, $region) {
 		if ($settlement AND $region) {
 			// Есть необходимость записать результат, т.к. размер передаваемого файла > 3M
-			if ( ! self::$_list_of_settlements) {
-				self::$_list_of_settlements = $this->get_catalog('List of settlements');
+			if ( ! self::$_listOfSettlements) {
+				self::$_listOfSettlements = $this->catalogList('List of settlements');
 			}
 			// Поиск города и адреса
-			foreach (self::$_list_of_settlements['ListCatalog']['Catalog'] as $settlement_current) {
-				if (mb_stripos($settlement_current['Name'], $settlement) !== FALSE 
-				AND (mb_stripos($settlement_current['AppendField'][0]['AppendFieldValue'], $region) !== FALSE 
-				OR mb_stripos($settlement_current['AppendField'][1]['AppendFieldValue'], $region) !== FALSE)) {
-					$settlement_code = $settlement_current['Code'];
+			foreach (self::$_listOfSettlements['ListCatalog']['Catalog'] as $settlementCurrent) {
+				if (mb_stripos($settlementCurrent['Name'], $settlement) !== FALSE 
+				AND (mb_stripos($settlementCurrent['AppendField'][0]['AppendFieldValue'], $region) !== FALSE 
+				OR mb_stripos($settlementCurrent['AppendField'][1]['AppendFieldValue'], $region) !== FALSE)) {
+					$settlementCode = $settlementCurrent['Code'];
 					break;
 				}
 			}
 		}
-		return (string) $settlement_code;
+		return (string) $settlementCode;
 	}
 	
 	/**
@@ -232,23 +231,23 @@ class IntimeApi {
 	 * @param string $address
 	 * @return string Code
 	 */
-	public function get_department_code($city, $address) {
+	public function getDepartmentCode($city, $address) {
 		if ($city AND $address) {
 			// Есть необходимость записать результат, т.к. размер передаваемого файла > 500K
-			( ! self::$_departments) AND self::$_departments = $this->get_catalog('Departments');
+			( ! self::$_departments) AND self::$_departments = $this->catalogList('Departments');
 			// Т.к. в адресах складов в некоторых случаях встречаются адреса без знаков препинания, то учитывается и этот вариант
-			$address_short = str_ireplace(array(' ', '.', ',', '-'), '', $address);
+			$addressShort = str_ireplace(array(' ', '.', ',', '-'), '', $address);
 			// Поиск города и адреса
 			foreach (self::$_departments['ListCatalog']['Catalog'] as $department) {
-				$department_address = $department['AppendField'][0]['AppendFieldValue'];
-				$department_address_short = str_ireplace(array(' ', '.', ',', '-'), '', $department_address);
-				if (mb_stripos($department['Name'], $city) !== FALSE AND (mb_stripos($department_address, $address) !== FALSE OR mb_stripos($department_address_short, $address_short) !== FALSE)) {
-					$warehouse_code = $department['Code'];
+				$departmentAddress = $department['AppendField'][0]['AppendFieldValue'];
+				$departmentAddressShort = str_ireplace(array(' ', '.', ',', '-'), '', $departmentAddress);
+				if (mb_stripos($department['Name'], $city) !== FALSE AND (mb_stripos($departmentAddress, $address) !== FALSE OR mb_stripos($departmentAddressShort, $addressShort) !== FALSE)) {
+					$warehouseCode = $department['Code'];
 					break;
 				}
 			}
 		}
-		return (string) $warehouse_code;
+		return (string) $warehouseCode;
 	}
 
 	/**
@@ -256,12 +255,12 @@ class IntimeApi {
 	 * 
 	 * @return array
 	 */
-	function get_all_catalogs() {
+	function allCatalog() {
 		$data['AllCatalog']['AllСatalogRequest']['Auth'] = array(
 			'ID' => $this->id,
 			'KEY' => $this->key,
 		);
-		$result = $this->intime_request("AllCatalog", $data);
+		$result = $this->request("AllCatalog", $data);
 		return $result;
 	}
 	
@@ -271,13 +270,13 @@ class IntimeApi {
 	 * @param string $catalog Название каталога
 	 * @return array Массив каталогов
 	 */
-	function get_catalog($catalog) {
+	function catalogList($catalog) {
 		$data['CatalogList']['CatalogListRequest']['AuthData'] = array(
 			'ID' => $this->id,
 			'KEY' => $this->key,
 		);
 		$data['CatalogList']['CatalogListRequest']['CatalogNameEng'] = $catalog;
-		$result = $this->intime_request("CatalogList", $data);
+		$result = $this->request("CatalogList", $data);
 		return $result;
 	}
 	
@@ -286,9 +285,9 @@ class IntimeApi {
 	 * 
 	 * @return string
 	 */
-	function delivery_day() {
+	function deliveryDay() {
 		// Проверка необходимых полей и попытка получить значения пустых полей
-		$this->_prepare_data(array('sender_warehouse_code', 'receiver_warehouse_code'));
+		$this->_prepareData(array('senderWarehouseCode', 'receiverWarehouseCode'));
 		$data = array(
 			'DeliveryDay' =>  array(
 				'DayOfDeliveryRequest' => array(
@@ -296,17 +295,17 @@ class IntimeApi {
 						'ID' => $this->id,
 						'KEY' => $this->key,
 					),
-					'WarehouseSender' => $this->sender_warehouse_code,
-					'WarehouseReceiver' => $this->receiver_warehouse_code,
-					'SettlementCodeSender' => $this->sender_settlement_code,
-					'SettlementCodeReceiver' => $this->receiver_settlement_code,
+					'WarehouseSender' => $this->senderWarehouseCode,
+					'WarehouseReceiver' => $this->receiverWarehouseCode,
+					'SettlementCodeSender' => $this->senderSettlementCode,
+					'SettlementCodeReceiver' => $this->receiverSettlementCode,
 					// Дата отправки
-					'Data' => $this->dispatch_date,
-					'TransportationType' => $this->transportation_type,
+					'Data' => $this->dispatchDate,
+					'TransportationType' => $this->transportationType,
 				),
 			)
 		);
-		$result = $this->intime_request("DeliveryDay", $data);
+		$result = $this->request("DeliveryDay", $data);
 		return $result['DayOfDelivery'];
 	}
 	
@@ -315,9 +314,9 @@ class IntimeApi {
 	 * 
 	 * @return float Стоимость доставки
 	 */
-	public function calculate_ttn() {
+	public function calculateTTN() {
 		// Проверка необходимых полей и попытка получить значения пустых полей
-		$this->_prepare_data(array('sender_warehouse_code', 'receiver_warehouse_code', 'quantity', 'weight', 'volume'));
+		$this->_prepareData(array('senderWarehouseCode', 'receiverWarehouseCode', 'quantity', 'weight', 'volume'));
 		// Подготовка параметров для запроса
 		$data = array();
 		// Попытка получить стоимость товара
@@ -327,29 +326,29 @@ class IntimeApi {
 		);
 		$data['CalculateTTN']['CalculateRequest']['CalculateTTN'] = array(
 			'Sender' => array(
-				'WarehouseSenderCode' => $this->sender_warehouse_code,
-				'SettlementCode' => $this->sender_settlement_code,
-				'PhoneSender' => $this->sender_phone,
+				'WarehouseSenderCode' => $this->senderWarehouseCode,
+				'SettlementCode' => $this->senderSettlementCode,
+				'PhoneSender' => $this->senderPhone,
 			),
 			'Receiver' => array(
-				'ReceiverClient' => $this->receiver_client,
-				'WarehouseReceiverCode' => $this->receiver_warehouse_code,
-				'PhoneReceiver' => $this->receiver_phone,
-				'SettlementCode' => $this->receiver_settlement_code,
+				'ReceiverClient' => $this->receiverClient,
+				'WarehouseReceiverCode' => $this->receiverWarehouseCode,
+				'PhoneReceiver' => $this->receiverPhone,
+				'SettlementCode' => $this->receiverSettlementCode,
 			),
-			'PaymentType' => $this->payment_type,
-			'DispatchDate' => $this->dispatch_date,
+			'PaymentType' => $this->paymentType,
+			'DispatchDate' => $this->dispatchDate,
 			'POD' => array(
-				'PodAmount' => $this->pod_amount,
+				'PodAmount' => $this->podAmount,
 			),
-			'InsuranceCost' => $this->insurance_cost,
-			'TransportationType' => $this->transportation_type,
-			'PaymentMethod' => $this->payment_method,
-			'PackagesTypeCode' => $this->packages_type_code,
-			'PackageQuantity' => $this->package_quantity,
+			'InsuranceCost' => $this->insuranceCost,
+			'TransportationType' => $this->transportationType,
+			'PaymentMethod' => $this->paymentMethod,
+			'PackagesTypeCode' => $this->packagesTypeCode,
+			'PackageQuantity' => $this->packageQuantity,
 			'Cargo' => array(
-				'CargoType' => $this->cargo_type,
-				'CargoDescription' => $this->cargo_description,
+				'CargoType' => $this->cargoType,
+				'CargoDescription' => $this->cargoDescription,
 			),
 			'CargoParams' => array(
 				'Quantity' => $this->quantity,
@@ -357,7 +356,7 @@ class IntimeApi {
 				'Volume' => $this->volume,
 			),
 		);
-		$result = $this->intime_request("CalculateTTN", $data);
+		$result = $this->request("CalculateTTN", $data);
 		return $result['Amount'];
 	}
 
@@ -367,13 +366,13 @@ class IntimeApi {
 	 * @param int $count Кол-во сгенерированных номеров для генерирования накладных, максимум 10 за 1 запрос
 	 * @return array Массив сгенерированных номеров
 	 */
-	function reserve_numbers($count = 1) {
+	function reserveNumbers($count = 1) {
 		$data['ReserveNumbers']['ReserveNumbersRequest']['Auth'] = array(
 			'ID' => $this->id,
 			'KEY' => $this->key,
 		);
 		$data['ReserveNumbers']['ReserveNumbersRequest']['Quantity'] = (int) $count;
-		$result = $this->intime_request("ReserveNumbers", $data);
+		$result = $this->request("ReserveNumbers", $data);
 		// $result['Number'] может быть как массив, так и string
 		return (array) $result['Number'];
 	}
@@ -383,15 +382,15 @@ class IntimeApi {
 	 * 
 	 * @return string Состояние создания заявки
 	 */
-	public function add_ttn() {
+	public function addTTN() {
 		// Проверка необходимых полей и попытка получить значения пустых полей
-		$this->_prepare_data(array('sender_warehouse_code', 'receiver_warehouse_code', 'quantity', 'weight', 'volume'));
+		$this->_prepareData(array('senderWarehouseCode', 'receiverWarehouseCode', 'quantity', 'weight', 'volume'));
 		// Если нет номера накладной, то делается запрос на его генерацию 
-		if ( ! $this->ttn_number) {
-			$reserved_numbers = $this->reserve_numbers();
-			if ( ! $reserved_numbers)
+		if ( ! $this->ttnNumber) {
+			$reservedNumbers = $this->reserveNumbers();
+			if ( ! $reservedNumbers)
 				throw new Exception('Не удалось сгенерировать номер накладной');
-			$this->ttn_number = $reserved_numbers[0];
+			$this->ttnNumber = $reservedNumbers[0];
 		}
 		// Подготовка параметров для запроса
 		$data = array();
@@ -402,24 +401,24 @@ class IntimeApi {
 		);
 		$data['AddTTN']['AddRequest']['TTN'] = array(
 			'Sender' => array(
-				'WarehouseSenderCode' => $this->sender_warehouse_code,
-				'SettlementCode' => $this->sender_settlement_code,
+				'WarehouseSenderCode' => $this->senderWarehouseCode,
+				'SettlementCode' => $this->senderSettlementCode,
 				'SenderAddress' => '',
-				'PhoneSender' => $this->sender_phone,
+				'PhoneSender' => $this->senderPhone,
 			),
 			'Receiver' => array(
-				'ReceiverClient' => $this->receiver_client,
-				'WarehouseReceiverCode' => $this->receiver_warehouse_code,
-				'SettlementCode' => $this->receiver_settlement_code,
+				'ReceiverClient' => $this->receiverClient,
+				'WarehouseReceiverCode' => $this->receiverWarehouseCode,
+				'SettlementCode' => $this->receiverSettlementCode,
 				'ReceiverAddress' => '',
-				'PhoneReceiver' => $this->receiver_phone,
+				'PhoneReceiver' => $this->receiverPhone,
 			),
-			'Number' => $this->ttn_number,
-			'PaymentType' => $this->payment_type,
-			'DispatchDate' => $this->dispatch_date,
+			'Number' => $this->ttnNumber,
+			'PaymentType' => $this->paymentType,
+			'DispatchDate' => $this->dispatchDate,
 			'POD' => array(
-				'PodPays' => $this->pod_payment_type,
-				'PodAmount' => $this->pod_amount,
+				'PodPays' => $this->podPaymentType,
+				'PodAmount' => $this->podAmount,
 				/*
 				'ReceiverPODThird' => array(
 					'ReceiverPODThird' => '',
@@ -433,11 +432,11 @@ class IntimeApi {
 				'WarehousePaysThird' => '',
 				'PhonePaysThird' => '',
 			),
-			'InsuranceCost' => $this->insurance_cost,
-			'TransportationType' => $this->transportation_type,
-			'PaymentMethod' => $this->payment_method,
+			'InsuranceCost' => $this->insuranceCost,
+			'TransportationType' => $this->transportationType,
+			'PaymentMethod' => $this->paymentMethod,
 			'Packages' => array(
-				'PackagesTypeCode' => $this->packages_type_code,
+				'PackagesTypeCode' => $this->packagesTypeCode,
 				'PackageQuantity' => 0,
 			),
 			'AdditionalServices' => array(
@@ -445,8 +444,8 @@ class IntimeApi {
 				'AdditionalServicesParametr' => '',
 			),
 			'Cargo' => array(
-				'CargoType' =>  $this->cargo_type,
-				'CargoDescription' => $this->cargo_description,
+				'CargoType' =>  $this->cargoType,
+				'CargoDescription' => $this->cargoDescription,
 			),
 			'CargoParams' => array(
 				'Quantity' => $this->quantity,
@@ -465,9 +464,9 @@ class IntimeApi {
 			*/
 			'PAS' => '',
 			'ReceiverCompany' => '',
-			'SenderCompany' => $this->sender_company,
+			'SenderCompany' => $this->senderCompany,
 		);
-		$result = $this->intime_request("AddTTN", $data);
+		$result = $this->request("AddTTN", $data);
 		return $result;
 	}
 
@@ -476,14 +475,14 @@ class IntimeApi {
 	 * 
 	 * @return string URL файла этикеток для печати
 	 */
-	public function print_label() {
+	public function printLabel() {
 		// Подготовка параметров для запроса
 		$data['PrintLabel']['GenerateLabelsRequest']['Auth'] = array(
 			'ID' => $this->id,
 			'KEY' => $this->key,
 		);
-		$data['PrintLabel']['GenerateLabelsRequest']['Number'] = $this->ttn_number;
-		$result = $this->intime_request("PrintLabel", $data);
+		$data['PrintLabel']['GenerateLabelsRequest']['Number'] = $this->ttnNumber;
+		$result = $this->request("PrintLabel", $data);
 		return $result['URL'];
 	}
 	
@@ -492,16 +491,16 @@ class IntimeApi {
 	 * 
 	 * @return string URL
 	 */
-	public function print_ttn() {
+	public function printTTN() {
 		// Подготовка параметров для запроса
 		$data['PrintTTN']['PrintTTNRequest']['Auth'] = array(
 			'ID' => $this->id,
 			'KEY' => $this->key,
 		);
-		$data['PrintTTN']['PrintTTNRequest']['Number'] = $this->ttn_number;
+		$data['PrintTTN']['PrintTTNRequest']['Number'] = $this->ttnNumber;
 		// Функция должна возвращать URL, но из-за ошибки на стороне сервиса возвращается
 		try {
-			$result = $this->intime_request("PrintTTN", $data);
+			$result = $this->request("PrintTTN", $data);
 		} catch (Exception $e) {
 			$result['URL'] = $e->getMessage();
 		}
@@ -513,14 +512,14 @@ class IntimeApi {
 	 * 
 	 * @return string XML
 	 */
-	public function print_ttn_ext() {
+	public function printTTNExt() {
 		// Подготовка параметров для запроса
 		$data['PrintTTNExt']['PrintTTNExtRequest']['Auth'] = array(
 			'ID' => $this->id,
 			'KEY' => $this->key,
 		);
-		$data['PrintTTNExt']['PrintTTNExtRequest']['Number'] = $this->ttn_number;
-		$result = $this->intime_request("PrintTTNExt", $data);
+		$data['PrintTTNExt']['PrintTTNExtRequest']['Number'] = $this->ttnNumber;
+		$result = $this->request("PrintTTNExt", $data);
 		return $result;
 	}
 	
@@ -529,13 +528,13 @@ class IntimeApi {
 	 * 
 	 * @return array
 	 */
-	public function info_ttn() {
+	public function infoTTN() {
 		// Подготовка параметров для запроса
 		$data['InfoTTN']['InfoTTNRequest']['Auth'] = array(
 			'ID' => $this->id,
 			'KEY' => $this->key,
 		);
-		$data['InfoTTN']['InfoTTNRequest']['Number'] = $this->ttn_number;
+		$data['InfoTTN']['InfoTTNRequest']['Number'] = $this->ttnNumber;
 		$data['InfoTTN']['InfoTTNRequest']['InformationField'][] = array('InformationName' => 'Ves');
 		$data['InfoTTN']['InfoTTNRequest']['InformationField'][] = array('InformationName' => 'VidPerevozki');
 		$data['InfoTTN']['InfoTTNRequest']['InformationField'][] = array('InformationName' => 'PlatelchikObratnoyPS');
@@ -555,7 +554,7 @@ class IntimeApi {
 		$data['InfoTTN']['InfoTTNRequest']['InformationField'][] = array('InformationName' => 'KolvoMest');
 		$data['InfoTTN']['InfoTTNRequest']['InformationField'][] = array('InformationName' => 'OpisanieGruza');
 		$data['InfoTTN']['InfoTTNRequest']['InformationField'][] = array('InformationName' => 'PostService');
-		$result = $this->intime_request("InfoTTN", $data);
+		$result = $this->request("InfoTTN", $data);
 		return $result;
 	}
 
@@ -564,16 +563,16 @@ class IntimeApi {
 	 * 
 	 * @return array
 	 */
-	public function delete_ttn() {
-		if ( ! $this->ttn_number) 
+	public function deleteTTN() {
+		if ( ! $this->ttnNumber) 
 			throw new Exception("Не указан номер ТТН");
 		// Подготовка параметров для запроса
 		$data['DeleteTTN']['DeleteRequest']['AuthData'] = array(
 			'ID' => $this->id,
 			'KEY' => $this->key,
 		);
-		$data['DeleteTTN']['DeleteRequest']['NumberTTN'] = $this->ttn_number;
-		$result = $this->intime_request("DeleteTTN", $data);
+		$data['DeleteTTN']['DeleteRequest']['NumberTTN'] = $this->ttnNumber;
+		$result = $this->request("DeleteTTN", $data);
 		return $result;
 	}
 }
