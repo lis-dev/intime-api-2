@@ -150,7 +150,7 @@ class IntimeApi2 {
 		// $client->$function($data)->return;
 		// Это не магия, здесь ok (eng) и ок (рус)
 		if ( ! in_array($response->InterfaceState, array('OK', 'ОК', iconv('utf-8', 'cp1251', 'ОК'))))
-			throw new Exception($response->InterfaceState);
+			throw new \Exception($response->InterfaceState);
 		$response = $this->_toArray($response);
 		return $response;
 	}
@@ -169,7 +169,7 @@ class IntimeApi2 {
 			if ( ! $this->senderWarehouseCode) {
 				$this->senderSettlementCode = $this->getSettlementCode( (string) $this->senderCity, (string) $this->senderRegion);
 				if ( ! $this->senderSettlementCode) {
-					throw new Exception("Не удалось определить ни код склада, ни код города отправителя");
+					throw new \Exception("Не удалось определить ни код склада, ни код города отправителя");
 				}
 			}
 		}
@@ -179,20 +179,20 @@ class IntimeApi2 {
 			if ( ! $this->receiverWarehouseCode) {
 				$this->receiverSettlementCode = $this->getSettlementCode( (string) $this->receiverCity, (string) $this->receiverRegion);
 				if ( ! $this->receiverSettlementCode) {
-					throw new Exception("Не удалось определить ни код склада, ни код города получателя");
+					throw new \Exception("Не удалось определить ни код склада, ни код города получателя");
 				}
 			}
 		}
 		if (in_array('quantity', $requiredFileds) AND  ! $this->quantity) {
-			throw new Exception("Не указано кол-во мест для груза");
+			throw new \Exception("Не указано кол-во мест для груза");
 		}
 		
 		if (in_array('weight', $requiredFileds) AND  ! $this->weight) {
-			throw new Exception("Не указан вес груза");
+			throw new \Exception("Не указан вес груза");
 		}
 		
 		if (in_array('volume', $requiredFileds) AND  ! $this->volume) {
-			throw new Exception("Не указан объём груза");
+			throw new \Exception("Не указан объём груза");
 		}
 		
 		return TRUE;
@@ -389,7 +389,7 @@ class IntimeApi2 {
 		if ( ! $this->ttnNumber) {
 			$reservedNumbers = $this->reserveNumbers();
 			if ( ! $reservedNumbers)
-				throw new Exception('Не удалось сгенерировать номер накладной');
+				throw new \Exception('Не удалось сгенерировать номер накладной');
 			$this->ttnNumber = $reservedNumbers[0];
 		}
 		// Подготовка параметров для запроса
@@ -565,7 +565,7 @@ class IntimeApi2 {
 	 */
 	public function deleteTTN() {
 		if ( ! $this->ttnNumber) 
-			throw new Exception("Не указан номер ТТН");
+			throw new \Exception("Не указан номер ТТН");
 		// Подготовка параметров для запроса
 		$data['DeleteTTN']['DeleteRequest']['AuthData'] = array(
 			'ID' => $this->id,
